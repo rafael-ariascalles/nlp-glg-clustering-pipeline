@@ -1,0 +1,14 @@
+name: nlp-pyspark-hf
+dependencies:
+  - python==3.9
+  - pip
+  - conda 
+  - pip:
+    - pandas
+    - numpy
+    - transformers
+    - datasets
+    - pyspark==3.1.2
+    - spark-nlp==3.4.4
+  - conda:
+    - ipykernel
