@@ -15,3 +15,12 @@
 **Created by**: Andrew Thompson<br/>
 **Date added**: 2020-03-04<br/>
 **Date modified**: 2020-03-04<br/>
+
+### Processing consideration
+
+**Date**: 2022-06-13<br/>
+**Files**: all-news-data-2-1.csv<br/>
+**exclude rows**: the row 0 and 2,324,812 was exclude from the dataset. the line 0 contains None values for columns headers.
+line 2,324,812 contains string columns in a numeric column article_idx
+**column name applied**: idx,article_idx,date,year,month,day,author,title,article,url,section,publication
+**column name file**: ,Unnamed: 0,date,year,month,day,author,title,article,url,section,publication
