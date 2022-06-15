@@ -1,0 +1,14 @@
+name: hf
+dependencies:
+  - python==3.9
+  - pip
+  - conda 
+  - pip:
+    - pandas
+    - numpy
+    - transformers
+    - datasets
+    - seaborn
+    - ipywidgets
+  - conda:
+    - ipykernel
