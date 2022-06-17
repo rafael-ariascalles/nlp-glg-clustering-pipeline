@@ -24,3 +24,7 @@
 **Column name file**: ,Unnamed: 0,date,year,month,day,author,title,article,url,section,publication<br/>
 **Exclude rows**: the row 0 and 2,324,812 was exclude from the dataset. the line 0 contains None values for columns headers.
 line 2,324,812 contains string columns in a numeric column article_idx.<br/>
+
+**Date**: 2022-06-17<br/>
+**Files**: ner.csv<br/>
+**Modification**: Rows 2-281837 were removed. Rows 2-281836 were exact duplicates of the content starting on row 281838 of the original file. Row 281837 was a copy of the first few fields of row 563673 followed by a repeat of the header from the 1st row.<br/>
