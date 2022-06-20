@@ -10,5 +10,6 @@ dependencies:
     - datasets
     - seaborn
     - ipywidgets
+    - python-dotenv
   - conda:
     - ipykernel
