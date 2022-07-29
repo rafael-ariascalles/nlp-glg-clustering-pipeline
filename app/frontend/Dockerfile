@@ -10,4 +10,7 @@ RUN pip3 install -r /requirements.txt
 WORKDIR /app
 COPY . .
 
+# Setup env SERCIVE_IP from .env file
+ENV SERVICE_IP 192.168.3.66
+
 CMD ["streamlit","run", "app.py"]

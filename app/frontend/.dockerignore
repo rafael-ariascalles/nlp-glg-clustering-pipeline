@@ -1,4 +1,4 @@
 Dockerfile
 ./build.sh
 .dockerignore
-.env
+#.env

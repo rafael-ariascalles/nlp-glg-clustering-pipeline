@@ -3,8 +3,13 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import requests
+import os
 
 st.set_page_config(page_title="GLG",layout="wide",initial_sidebar_state="expanded")
+
+SERVICE_IP = os.getenv('SERVICE_IP')
+service_endpoint = "http://{}:9898/predict".format(SERVICE_IP)
+#st.write("Service endpoint: {}".format(service_endpoint))
 
 st.markdown(""" <style>
 #MainMenu {visibility: hidden;}
@@ -27,7 +32,7 @@ submited_text = st.sidebar.text_area("Customer Request:", value="",height=350, m
 
 if st.sidebar.button("Submit"):
     data = {"text": submited_text}
-    response = requests.post("http://<YOUR_IP_HERE>:9898/predict", json=data)
+    response = requests.post(service_endpoint, json=data)
     response_object = response.json()
 
     #validate response code and content
