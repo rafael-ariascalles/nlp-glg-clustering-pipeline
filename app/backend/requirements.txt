@@ -1,0 +1,7 @@
+fastapi
+numpy
+pandas
+transformers
+datasets
+torch
+uvicorn
