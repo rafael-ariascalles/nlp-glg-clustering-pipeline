@@ -2,33 +2,35 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+st.set_page_config(page_title="GLG",layout="wide")
 
-#Modification of the application layout
-def _max_width_():
-    max_width_str = f"width: 90%;"
-    st.markdown(
-        f"""
-    <style>
+st.markdown(""" <style>
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+</style> """, unsafe_allow_html=True)
+
+
+padding = 0
+st.markdown(f""" <style>
     .reportview-container .main .block-container{{
-        {max_width_str}
-    }}
-    </style>    
-    """,
-        unsafe_allow_html=True,
-    )
+        padding-top: {padding}rem;
+        padding-right: {padding}rem;
+        padding-left: {padding}rem;
+        padding-bottom: {padding}rem;
+    }} </style> """, unsafe_allow_html=True)
+
+st.subheader("Request Analyser")
 
 
-st.title("Application")
-st.subheader("Streamlit Application")
+form = st.form(key="Processing")
 
-#with st.form(key="my_form"):
-_max_width_()
+with form:
+    t = st.text_area("Customer Request:", value="",height=50, max_chars=None, key=None, help=None, on_change=None, args=None, kwargs=None, placeholder=None, disabled=False)
+    submited = st.form_submit_button("Submit")
 
-ce, c1, ce, c2, c3 = st.columns([0.07, 1, 0.07,3, 0.07])
-with c1:
-    st.text_area("Customer Request:", value="", height=None, max_chars=None, key=None, help=None, on_change=None, args=None, kwargs=None, placeholder=None, disabled=False)
-with c2:
-    st.text("Some results")
+st1, st2, st3, st4 = st.columns(4)
+if submited:
+    st.text(t)
 
 # write a title in H1 tag and a subtitle in H2 tag. with the title "Application"
 # write a button that when clicked, will generate a text
