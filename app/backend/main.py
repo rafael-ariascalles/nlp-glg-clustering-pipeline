@@ -3,6 +3,7 @@ from pydoc_data.topics import topics
 from fastapi import FastAPI, Query, HTTPException
 from pydantic import BaseModel
 
+import spacy
 
 
 app = FastAPI()
@@ -19,9 +20,18 @@ class SubmitedTextOut(SubmitedText):
 def get_prediction(payload: SubmitedText):
     text = payload.text
 
+    nlp = spacy.load("en_core_web_sm")
+    doc = nlp(text)
+
+    entities = {}
+    for ent in doc.ents:
+        entities[ent.label_] = []
+
+    for ent in doc.ents:
+        entities[ent.label_].append(ent.text)
 
     response_object = SubmitedTextOut(text=text
-        , entities={"PERSON": [], "LOCATION": [], "ORGANIZATION": [], "MONEY": [], "PERCENT": [], "DATE": [], "TIME": [], "MISC": []}
+        , entities=entities
         , topics={"Topic 1": [], "Topic 2": [], "Topic 3": [], "Topic 4": [], "Topic 5": []}
     )
 
