@@ -8,7 +8,7 @@ import os
 st.set_page_config(page_title="GLG",layout="wide",initial_sidebar_state="expanded")
 
 SERVICE_IP = os.getenv('SERVICE_IP')
-service_endpoint = "http://{}:9898/predict".format(SERVICE_IP)
+service_endpoint = "http://0.0.0.0:9898/predict".format(SERVICE_IP)
 #st.write("Service endpoint: {}".format(service_endpoint))
 
 st.markdown(""" <style>
