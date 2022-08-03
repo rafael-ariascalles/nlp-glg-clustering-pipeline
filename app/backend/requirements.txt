@@ -6,3 +6,5 @@ transformers
 datasets
 torch
 uvicorn
+sklearn
+tensorflow
