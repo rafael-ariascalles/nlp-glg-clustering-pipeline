@@ -23,6 +23,7 @@ class NERTextPrepper():
             data['Word'] = data['Word'].str.lower()
 
         if punctuation == "trailing":
+            data['Word'] = data['Word'].str.replace("'s", "");
             data['Word'] = data['Word'].str.replace("\([a-z0-9]+\)(\.|,|!|\?)\+", "\1", regex=True)
             data['Word'] = data['Word'].str.replace("~", "", regex=True)
         elif punctuation == "all":

@@ -1,4 +1,3 @@
-spacy
 fastapi
 numpy
 pandas
