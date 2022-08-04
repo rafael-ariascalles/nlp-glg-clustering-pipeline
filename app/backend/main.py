@@ -6,6 +6,8 @@ from pydantic import BaseModel
 import tensorflow as tf
 import pandas as pd
 import numpy as np
+import re
+# import logging
 
 def string2Vector(str_in, word2idx_dict, max_len=50):
     """
@@ -16,11 +18,14 @@ def string2Vector(str_in, word2idx_dict, max_len=50):
     # Fill vector with end padding value
     str_vec = [word2idx_dict["ENDPAD"]] * max_len
    
+    str_clean = str_in.replace("'s", "");
+    str_clean = re.sub("([a-zA-Z0-9])(\.|,|!|\?)", "\g<1>", str_clean)
+    str_clean = str_clean.replace("~", "");
 
     # Fill vector with integer representation
     # of the word if found in the dictionary,
     # otherwise use index for "unknown" character
-    for i, s in enumerate(str_in.lower().split()):
+    for i, s in enumerate(str_clean.lower().split()):
         if s in word2idx_dict.keys():
             str_vec[i] = word2idx_dict[s]
         else:
@@ -30,7 +35,7 @@ def string2Vector(str_in, word2idx_dict, max_len=50):
         if i == max_len-1:
             break
             
-    return str_in.split(), np.reshape(str_vec, (1,max_len))
+    return str_clean.split(), np.reshape(str_vec, (1,max_len))
 
 
 app = FastAPI()
@@ -62,21 +67,22 @@ class SubmitedTextOut(SubmitedText):
 @app.post("/predict", response_model=SubmitedTextOut, status_code=200)
 def get_prediction(payload: SubmitedText):
     
+    # logging.debug('This message should go to the log file')
     text = payload.text
     
     # Convers text to numeric input for TF model
     text_tokens, text_vector = string2Vector(text, word2idx_dict)
 
-    
-    # Load model and predict
+
     ner_preds = ner_model.predict(text_vector)
 
     # Convert prediction probabilities to text tag labels
     ner_preds = np.argmax(ner_preds, axis=-1)
     ner_preds = [item for sublist in ner_preds for item in sublist]
     tag_names = list(tag2idx_dict.keys())
+    pd.Series({'ner_preds': ner_preds}).to_csv('ner_preds.csv')
 
-    entities = {}
+    entities={}
     for i, ner_pred_i in enumerate(ner_preds):
         tag_i = tag_names[ner_pred_i]
         if tag_i != "O":
@@ -86,5 +92,6 @@ def get_prediction(payload: SubmitedText):
         , entities=entities
         , topics={"Topic 1": [], "Topic 2": [], "Topic 3": [], "Topic 4": [], "Topic 5": []}
     )
+
 
     return response_object
