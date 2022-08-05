@@ -32,7 +32,7 @@ def get_prediction(payload: SubmitedText):
 
     response_object = SubmitedTextOut(text=text
         , entities=entities
-        , topics={"Topic 1": [], "Topic 2": [], "Topic 3": [], "Topic 4": [], "Topic 5": []}
+        , topics={"Topic 1": ["this is 1"], "Topic 2": [], "Topic 3": [], "Topic 4": [], "Topic 5": []}
     )
 
     return response_object
