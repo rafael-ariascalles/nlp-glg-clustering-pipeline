@@ -107,12 +107,12 @@ class NERTextPrepper():
         # Convert y_true and model predictions to integers that
         # match our tag2idx dictionary
 
-        y_pred_probs = self.model.predict(np.array(x_test))
-        y_true = np.argmax(np.array(y_test), axis=-1)
-        y_true_flat = [item for sublist in y_true for item in sublist]
+        self.y_pred_probs = self.model.predict(np.array(x_test))
+        self.y_true = np.argmax(np.array(y_test), axis=-1)
+        self.y_true_flat = [item for sublist in self.y_true for item in sublist]
 
-        y_pred = np.argmax(y_pred_probs, axis=-1)
-        y_pred = [item for sublist in y_pred for item in sublist]
+        y_pred = np.argmax(self.y_pred_probs, axis=-1)
+        self.y_pred = [item for sublist in y_pred for item in sublist]
 
         print(self.tags)
-        print(classification_report(y_true_flat, y_pred, target_names=self.tags))
+        print(classification_report(self.y_true_flat, self.y_pred, target_names=self.tags))
