@@ -1,8 +1,9 @@
 flair
 fastapi
-sklearn==1.1.1
+scikit-learn
 numpy
 pandas
+joblib
 transformers
 datasets
 sentence-transformers
