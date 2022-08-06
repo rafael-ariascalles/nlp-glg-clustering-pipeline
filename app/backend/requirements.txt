@@ -1,8 +1,10 @@
 spacy
 fastapi
+sklearn==1.1.1
 numpy
 pandas
 transformers
 datasets
+sentence-transformers
 torch
 uvicorn
