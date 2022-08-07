@@ -4,12 +4,11 @@ from fastapi import FastAPI, Query, HTTPException
 from pydantic import BaseModel
 from typing import List
 from topic_service import TopicService
+from ner_service import NERService
 
 import pandas as pd
 import numpy as np
 
-from flair.data import Sentence
-from flair.models import SequenceTagger
 
 
 app = FastAPI()
@@ -17,32 +16,11 @@ app = FastAPI()
 ####################
 # Load assets     
 ####################
-# Load NER model and keep it in RAM
-data_dir = "./models/"
 
 # load tagger
-tagger = SequenceTagger.load("flair/ner-english-ontonotes-fast")
+#tagger = SequenceTagger.load("flair/ner-english-ontonotes-fast")
+ner_service = NERService()
 topic_service = TopicService()
-
-def get_entities(text):
-    # make example sentence
-    sentence = Sentence(text)
-
-    # predict NER tags
-    tagger.predict(sentence)
-
-    # print predicted NER spans
-    # print('The following NER tags are found:')
-    # iterate over entities and print
-    entities = {}
-    for entity in sentence.get_spans('ner'):
-        # entities[entity.text] = entity.tag
-        if entity.tag in entities:
-            entities[entity.tag] = entities[entity.tag] + ", " + entity.text
-        else:
-            entities[entity.tag] = entity.text
-
-    return entities
 
 
 # pydantic models
@@ -59,7 +37,7 @@ def get_prediction(payload: SubmitedText):
     # logging.debug('This message should go to the log file')
     text = payload.text
 
-    entities = get_entities(text)
+    entities = ner_service.get_entities(text)
     topics = topic_service.predict_topic([text])
 
     response_object = SubmitedTextOut(text=text
