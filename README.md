@@ -8,5 +8,4 @@ conda env create -f conda-env.yml
 
 Team: 
 * Jason Jones
-* Deep Shrestha
 * Rafael Arias

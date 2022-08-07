@@ -2,6 +2,8 @@ from html import entities
 from pydoc_data.topics import topics
 from fastapi import FastAPI, Query, HTTPException
 from pydantic import BaseModel
+from typing import List
+from topic_service import TopicService
 
 import pandas as pd
 import numpy as np
@@ -20,6 +22,7 @@ data_dir = "./models/"
 
 # load tagger
 tagger = SequenceTagger.load("flair/ner-english-ontonotes-fast")
+topic_service = TopicService()
 
 def get_entities(text):
     # make example sentence
@@ -48,7 +51,7 @@ class SubmitedText(BaseModel):
 
 class SubmitedTextOut(SubmitedText):
     entities: dict
-    topics: dict
+    topics: List[dict]
 
 @app.post("/predict", response_model=SubmitedTextOut, status_code=200)
 def get_prediction(payload: SubmitedText):
@@ -57,10 +60,11 @@ def get_prediction(payload: SubmitedText):
     text = payload.text
 
     entities = get_entities(text)
+    topics = topic_service.predict_topic([text])
 
     response_object = SubmitedTextOut(text=text
         , entities=entities
-        , topics={"Topic 1": ["this is 1"], "Topic 2": [], "Topic 3": [], "Topic 4": [], "Topic 5": []}
+        , topics=topics
     )
 
     return response_object

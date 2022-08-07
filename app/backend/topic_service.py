@@ -15,7 +15,9 @@ class TopicService:
     # 2. Load the Kmeans minibatch kmeans model using joblib
     def __init__(self):
         self.encoder_model = SentenceTransformer("all-MiniLM-L6-v2")
-        self.cluster_model = joblib.load('./models/kmeans_model.pkl')
+        self.cluster_model = joblib.load('models/kmeans_model.pickle')
+        self.vector_description = joblib.load('models/vector_description.pickle')
+        self.cluster_num = self.cluster_model.n_clusters
 
     # Predict the topic of a given text
     # 1. Get the embedding of the text
@@ -24,8 +26,14 @@ class TopicService:
     def predict_topic(self, text):
         embedding = self.encoder_model.encode(text)
 
-        distances = self.kmean_model.transform(embedding)
-        cluster = self.kmean_model.predict(embedding)
-        cluster_distances = np.min(distances,axis=1)
-        topic = [c if d < 0.9 else 37 for c,d in zip(cluster,cluster_distances)]
-        return topic[0]
+        distances = self.cluster_model.transform(embedding)
+
+        topic = pd.DataFrame({"distance":distances[0]})
+        topic.reset_index(inplace=True)
+        topic.columns=["topic","score"]
+        topic.sort_values("score",inplace=True)
+        response = topic.head(3).copy()
+        response.loc[:,"topic"] = response["topic"].map(self.vector_description)
+        response = response.to_dict("records")
+
+        return response
