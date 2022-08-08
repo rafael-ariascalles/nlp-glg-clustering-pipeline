@@ -8,7 +8,7 @@ import os
 st.set_page_config(page_title="GLG",layout="wide",initial_sidebar_state="expanded")
 
 SERVICE_IP = os.getenv('SERVICE_IP')
-service_endpoint = "http://0.0.0.0:9898/predict".format(SERVICE_IP)
+service_endpoint = "http://{}:9898/predict".format(SERVICE_IP)
 #st.write("Service endpoint: {}".format(service_endpoint))
 
 st.markdown(""" <style>
@@ -40,9 +40,10 @@ if st.sidebar.button("Submit"):
         st.subheader("Customer Request")
         st.write(submited_text)
         st1, st2 = st.columns(2)    
-        st1.subheader("Entities")
-        st1.write(response_object["entities"])
-        st2.subheader("Topics")
-        st2.write(response_object["topics"])
+        st1.subheader("Topics")
+        st1.write(response_object["topics"])
+        st2.subheader("Entities")
+        st2.write(response_object["entities"])
+        
     else:
         st.write("Error:", "API not responding")
