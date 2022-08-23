@@ -1,5 +1,7 @@
+from collections import defaultdict
 from flair.data import Sentence
 from flair.models import SequenceTagger
+import numpy as np
 
 class NERService:
 
@@ -14,13 +16,10 @@ class NERService:
 
         # iterate over entities and put them
         # in a dictionary with the tag as the key
-        entities = {}
+        # but do not add duplicate values
+        entities = defaultdict(set)
         for entity in sentence.get_spans('ner'):
-            # entities[entity.text] = entity.tag
-            if entity.tag in entities:
-                entities[entity.tag] = entities[entity.tag] + ", " + entity.text
-            else:
-                entities[entity.tag] = entity.text
+                entities[entity.tag].add(entity.text)
 
-        return entities
+        return { k: list(v) for k,v in entities.items() }
 
