@@ -8,7 +8,8 @@ import os
 st.set_page_config(page_title="GLG",layout="wide")
 
 SERVICE_IP = os.getenv('SERVICE_IP')
-service_endpoint = "http://0.0.0.0:9898/predict".format(SERVICE_IP)
+service_endpoint = "http://{}:9898/predict".format(SERVICE_IP)
+#st.write("Service endpoint: {}".format(service_endpoint))
 
 st.markdown(""" <style>
 #MainMenu {visibility: hidden;}
@@ -54,6 +55,12 @@ if submitted:
         st2.markdown('<span style="color:#556173;font-size=10px"><em>*Score: lower is better</em></span>', unsafe_allow_html=True)
         st3.write(response_object["topics"][1])    
         st4.write(response_object["topics"][2])
+   
+        st1.subheader("Topics")
+        st1.write(response_object["topics"])
+        st2.subheader("Entities")
+        st2.write(response_object["entities"])
+        
     else:
         st.write("Error:", "API not responding")
 
