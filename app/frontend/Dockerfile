@@ -11,6 +11,6 @@ WORKDIR /app
 COPY . .
 
 # Setup env SERCIVE_IP from .env file
-ENV SERVICE_IP 192.168.3.66
+ENV SERVICE_IP 0.0.0.0
 
 CMD ["streamlit","run", "app.py"]
