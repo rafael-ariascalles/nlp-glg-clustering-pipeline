@@ -14,11 +14,9 @@ import numpy as np
 app = FastAPI()
 
 ####################
-# Load assets     
+# Load models     
 ####################
 
-# load tagger
-#tagger = SequenceTagger.load("flair/ner-english-ontonotes-fast")
 ner_service = NERService()
 topic_service = TopicService()
 
