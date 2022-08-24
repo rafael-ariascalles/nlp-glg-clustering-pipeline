@@ -56,11 +56,6 @@ if submitted:
         st3.write(response_object["topics"][1])    
         st4.write(response_object["topics"][2])
    
-        #st1.subheader("Topics")
-        #st1.write(response_object["topics"])
-        #st2.subheader("Entities")
-        #st2.write(response_object["entities"])
-        
     else:
         st.write("Error:", "API not responding")
 
